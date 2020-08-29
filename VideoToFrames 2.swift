@@ -13,17 +13,6 @@ import SceneKit
 import SwiftUI
 import CoreData
 
-
-func getFrames()-> [Frame]{
-    var frames:[Frame] = [Frame]()
-
-    for i in 0...101{
-        let frame = Frame(index: i, imageName: ("i\(i)"), seconds: 0.0)
-        frames.append(frame)
-    }
-    return frames
-}
-
 struct Thumbnail {
     var isSelected: Bool
     var associatedTime: CMTime
