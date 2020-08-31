@@ -19,11 +19,10 @@ struct LoadView: View {
 
     var body: some View {
         VStack{
-            Text("\( String( self.doneConverting) )" )
+            Text("done making frames ? \( String( self.doneConverting) )" )
             if self.doneConverting{
-                FramePicker(Images: images)
+                NavigationLink(destination: FramePicker(Images: images), isActive: $doneConverting){ EmptyView() }
             }
-
         }
         .onAppear{
             self.generateImagesfromVideo(videoURLString: "https://swing-videos.s3.us-east-2.amazonaws.com/TipsVideos2/HipRotation%40Backswing_Good.mp4")
@@ -54,9 +53,7 @@ struct LoadView: View {
 
     func populateThumbnails(totalFrames:Int, generator: AVAssetImageGenerator )  {
             var times          = [NSValue]()
-            var thumbnails     = [Thumbnail]()
-            var thumbnailCache = NSCache<NSString, UIImage>()
-            var imgs         = [Image]()
+            var imgs           = [Image]()
 
            print("populating thumbnails")
            for second in 0..<totalFrames {
@@ -71,11 +68,8 @@ struct LoadView: View {
                        let img = UIImage(cgImage: image)
                        let resized = img.resizeImage(newWidth: 255, newHeight: 424)
                        let thumbnail = Thumbnail(isSelected: false, associatedTime: requestedTime)
-                       thumbnails.append(thumbnail)
                        // set for UIImage resize
-                       thumbnailCache.setObject(resized, forKey: requestedTime.seconds.description as NSString)
                        imgs.append( Image(uiImage: resized) )
-
                        if requestedTime.value == totalFrames - 1 {
                            DispatchQueue.main.async {
                                  print("Done")
