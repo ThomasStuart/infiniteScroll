@@ -11,34 +11,44 @@ import CoreMedia
 
 
 struct FramePicker: View {
-    @State var currentFrameIndex = 0
-    //var frames:[Image]
+    @State var posX: CGFloat = 0
+    @State var index:Int = 0
 
     var body: some View {
+        GeometryReader { geo in
+            VStack {
 
-        VStack{
+                Text("\(self.posX * -1)")
+                Image("i\(self.index)").resizable().aspectRatio(1, contentMode: .fit).frame(width: 255, height:424)
+                Text("\(self.index)")
 
-            ScrollView (.horizontal, showsIndicators: false) {
-                 HStack {
-                    ForEach( getFrames() , id: \.self ){ frame in
-                        frame.image
-                     }
-                 }
-            }.frame(height: 100)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    VStack {
+                        GeometryReader { innerGeo -> Text in
+                            self.posX = innerGeo.frame(in: .global).minX
+                            self.index = self.getIndex(x: self.posX)
+                            return Text("")
+                        }.frame(height:1)
 
-
+                        HStack(spacing: 10){
+                            ForEach( getFrames() , id: \.self ){ frame in
+                                frame.image
+                            }
+                        }.padding(10)
+                    }
+                }
+            }
         }
     }
 
-    func getArray()-> [Int]{
-        var arr:[Int] = [Int]()
-        for i in 0...100{
-            arr.append(i)
-        }
-        return arr
+    func getIndex(x:CGFloat ) -> Int {
+        let frameSize    = 64
+        let framePadding = 10
+        let absX = x * -1.0
+        let intX = Int(absX)
+        return (intX / (frameSize + framePadding))
     }
-
-
+    
 }
 
 struct FramePicker_Previews: PreviewProvider {
