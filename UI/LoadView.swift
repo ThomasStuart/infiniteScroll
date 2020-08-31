@@ -13,14 +13,15 @@ import CoreData
 
 struct LoadView: View {
     @State var doneConverting:Bool = false
+    @State var images = [Image]()
     let framesPerSecond: Int32 = 30
-    var thumbnailCache = NSCache<NSString, UIImage>()
+
 
     var body: some View {
         VStack{
             Text("\( String( self.doneConverting) )" )
             if self.doneConverting{
-               FramePicker()
+                FramePicker(Images: images)
             }
 
         }
@@ -55,6 +56,7 @@ struct LoadView: View {
             var times          = [NSValue]()
             var thumbnails     = [Thumbnail]()
             var thumbnailCache = NSCache<NSString, UIImage>()
+            var imgs         = [Image]()
 
            print("populating thumbnails")
            for second in 0..<totalFrames {
@@ -67,16 +69,18 @@ struct LoadView: View {
                case .succeeded: do {
                    if let image = cgImage {
                        let img = UIImage(cgImage: image)
-                       let resized = img.resizeImage(newWidth: 50, newHeight: 50)
+                       let resized = img.resizeImage(newWidth: 255, newHeight: 424)
                        let thumbnail = Thumbnail(isSelected: false, associatedTime: requestedTime)
                        thumbnails.append(thumbnail)
                        // set for UIImage resize
                        thumbnailCache.setObject(resized, forKey: requestedTime.seconds.description as NSString)
+                       imgs.append( Image(uiImage: resized) )
 
                        if requestedTime.value == totalFrames - 1 {
                            DispatchQueue.main.async {
                                  print("Done")
                                  print("total frames", totalFrames)
+                                 self.images = imgs
                                  self.doneConverting = true
                            }
                        }

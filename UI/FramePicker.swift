@@ -13,13 +13,15 @@ import CoreMedia
 struct FramePicker: View {
     @State var posX: CGFloat = 0
     @State var index:Int = 0
+    var Images: [Image]
 
     var body: some View {
         GeometryReader { geo in
             VStack {
-
+                Text("Thomas")
                 Text("\(self.posX * -1)")
-                Image("i\(self.index)").resizable().aspectRatio(1, contentMode: .fit).frame(width: 255, height:424)
+                //Image("i\(self.index)").resizable().aspectRatio(1, contentMode: .fit).frame(width: 255, height:424)
+                self.Images[self.index].resizable().frame(width: 255, height:424)
                 Text("\(self.index)")
 
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -30,9 +32,15 @@ struct FramePicker: View {
                             return Text("")
                         }.frame(height:1)
 
+//                        HStack(spacing: 10){
+//                            ForEach( Images , id: \.self ){ frame in
+//                                frame
+//                            }
+//                        }.padding(10)
+
                         HStack(spacing: 10){
-                            ForEach( getFrames() , id: \.self ){ frame in
-                                frame.image
+                            ForEach(0 ..< self.Images.count) {
+                                SmallFrameView(image: self.Images[$0] )
                             }
                         }.padding(10)
                     }
@@ -51,8 +59,8 @@ struct FramePicker: View {
     
 }
 
-struct FramePicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FramePicker()
-    }
-}
+//struct FramePicker_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FramePicker()
+//    }
+//}

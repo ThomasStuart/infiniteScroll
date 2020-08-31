@@ -17,27 +17,28 @@ struct Frame: Identifiable, Hashable{
     var seconds: Double
     var isSelected: Bool = false
 
-    var image:some View{
-        SmallFrameView(imageName:imageName)
-    }
+//    var image:some View{
+//        SmallFrameView(imageName:imageName)
+//    }
+
 
 }
 
 
 struct SmallFrameView: View {
     @State var isSelected = false
-    var imageName:String
+    var image:Image
 
     var body: some View {
-        Image(imageName)
+        image
             .resizable()
             .frame(width:64,height:64)
     }
 }
-
-struct SmallFrameView_Previews: PreviewProvider {
-    static var previews: some View {
-        SmallFrameView(imageName: "golfSwingTop")
-//        SmallFrame(imageName: "golfSwingTop", associatedTime: CMTime(seconds: 0.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
-    }
-}
+//
+//struct SmallFrameView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SmallFrameView(imageName: "golfSwingTop")
+////        SmallFrame(imageName: "golfSwingTop", associatedTime: CMTime(seconds: 0.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+//    }
+//}
