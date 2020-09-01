@@ -14,15 +14,17 @@ import SwiftUI
 import CoreData
 
 
-func getFrames()-> [Frame]{
-    var frames:[Frame] = [Frame]()
+func getImages()-> [Image]{
+    var images:[Image] = [Image]()
 
     for i in 0...101{
-        let frame = Frame(index: i, imageName: ("i\(i)"), seconds: 0.0)
-        frames.append(frame)
+        let image =  Image("i\(i)")
+        images.append(image)
     }
-    return frames
+    return images
 }
+
+
 
 struct Thumbnail {
     var isSelected: Bool

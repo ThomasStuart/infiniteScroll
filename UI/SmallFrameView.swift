@@ -10,35 +10,22 @@ import SwiftUI
 import CoreMedia
 
 
-struct Frame: Identifiable, Hashable{
-    var id = UUID()
-    var index: Int
-    var imageName:String
-    var seconds: Double
-    var isSelected: Bool = false
-
-//    var image:some View{
-//        SmallFrameView(imageName:imageName)
-//    }
-
-
-}
-
 
 struct SmallFrameView: View {
     @State var isSelected = false
     var image:Image
+    let imageSize:CGFloat = 64
 
     var body: some View {
         image
             .resizable()
-            .frame(width:64,height:64)
+            .frame(width:imageSize,height:imageSize)
+            .background( Rectangle().frame(width: imageSize+10, height: imageSize+10).foregroundColor( isSelected ? .red : .clear) )
     }
 }
-//
-//struct SmallFrameView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SmallFrameView(imageName: "golfSwingTop")
-////        SmallFrame(imageName: "golfSwingTop", associatedTime: CMTime(seconds: 0.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
-//    }
-//}
+
+struct SmallFrameView_Previews: PreviewProvider {
+    static var previews: some View {
+        SmallFrameView(image: Image("i0") )
+    }
+}

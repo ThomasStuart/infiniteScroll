@@ -16,27 +16,21 @@ struct FramePicker: View {
     var Images: [Image]
 
     var body: some View {
+
         GeometryReader { geo in
             VStack {
-                Text("Thomas")
-                Text("\(self.posX * -1)")
-                //Image("i\(self.index)").resizable().aspectRatio(1, contentMode: .fit).frame(width: 255, height:424)
+                Text("X distance scrolled: \(self.posX * -1)")
                 self.Images[self.index].resizable().frame(width: 255, height:424)
-                Text("\(self.index)")
+                Text("corresponding index: \(self.index)")
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     VStack {
                         GeometryReader { innerGeo -> Text in
                             self.posX = innerGeo.frame(in: .global).minX
                             self.index = self.getIndex(x: self.posX)
+                            //self.Images[self.index].isSelected = true
                             return Text("")
                         }.frame(height:1)
-
-//                        HStack(spacing: 10){
-//                            ForEach( Images , id: \.self ){ frame in
-//                                frame
-//                            }
-//                        }.padding(10)
 
                         HStack(spacing: 10){
                             ForEach(0 ..< self.Images.count) {
@@ -59,8 +53,8 @@ struct FramePicker: View {
     
 }
 
-//struct FramePicker_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FramePicker()
-//    }
-//}
+struct FramePicker_Previews: PreviewProvider {
+    static var previews: some View {
+        FramePicker(Images: getImages())
+    }
+}
