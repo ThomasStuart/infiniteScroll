@@ -17,7 +17,11 @@ import CoreData
 func getImages()-> [Image]{
     var images:[Image] = [Image]()
 
-    for i in 0...101{
+    for i in 0..<2{
+        images.append(Image("black-square"))
+    }
+
+    for i in 0...106{
         let image =  Image("i\(i)")
         images.append(image)
     }

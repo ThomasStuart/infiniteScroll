@@ -54,7 +54,9 @@ struct LoadView: View {
     func populateThumbnails(totalFrames:Int, generator: AVAssetImageGenerator )  {
             var times          = [NSValue]()
             var imgs           = [Image]()
-
+            for i in 0..<2{
+                imgs.append(Image("black-square"))
+            }
            print("populating thumbnails")
            for second in 0..<totalFrames {
                times.append(CMTimeMake(value: Int64(second), timescale: 30) as NSValue)
@@ -74,6 +76,9 @@ struct LoadView: View {
                            DispatchQueue.main.async {
                                  print("Done")
                                  print("total frames", totalFrames)
+                                for i in 0..<5{
+                                    imgs.append(Image("black-square"))
+                                }
                                  self.images = imgs
                                  self.doneConverting = true
                            }
