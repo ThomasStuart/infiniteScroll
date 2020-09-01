@@ -12,7 +12,9 @@ import CoreMedia
 
 
 struct SmallFrameView: View {
+    @Binding var currIndex:Int
     @State var isSelected = false
+    var id:Int
     var image:Image
     let imageSize:CGFloat = 64
 
@@ -20,12 +22,13 @@ struct SmallFrameView: View {
         image
             .resizable()
             .frame(width:imageSize,height:imageSize)
-            .background( Rectangle().frame(width: imageSize+10, height: imageSize+10).foregroundColor( isSelected ? .red : .clear) )
+            //.background( Rectangle().frame(width: imageSize+10, height: imageSize+10).foregroundColor( isSelected ? .red : .clear) )
+            .background( Rectangle().frame(width: imageSize+10, height: imageSize+10).foregroundColor( currIndex == id ? .red : .clear) )
     }
 }
 
 struct SmallFrameView_Previews: PreviewProvider {
     static var previews: some View {
-        SmallFrameView(image: Image("i0") )
+        SmallFrameView(currIndex: .constant(1) , id: 0 ,image: Image("i0") )
     }
 }
