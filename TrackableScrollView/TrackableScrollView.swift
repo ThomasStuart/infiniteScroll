@@ -12,12 +12,14 @@ struct TrackableScrollView<Content>: View where Content: View {
     let axes: Axis.Set
     let showIndicators: Bool
     @Binding var contentOffset: CGFloat
+    @Binding var index:Int
     let content: Content
     
-    init(_ axes: Axis.Set = .vertical, showIndicators: Bool = true, contentOffset: Binding<CGFloat>, @ViewBuilder content: () -> Content) {
+    init(_ axes: Axis.Set = .vertical, showIndicators: Bool = true, contentOffset: Binding<CGFloat>, index: Binding<Int>, @ViewBuilder content: () -> Content) {
         self.axes = axes
         self.showIndicators = showIndicators
         self._contentOffset = contentOffset
+        self._index         = index
         self.content = content()
     }
     
@@ -36,6 +38,7 @@ struct TrackableScrollView<Content>: View where Content: View {
             }
             .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
                 self.contentOffset = value[0]
+                self.index         = self.getIndex(x: self.contentOffset)
             }
         }
     }
@@ -46,5 +49,12 @@ struct TrackableScrollView<Content>: View where Content: View {
         } else {
             return outsideProxy.frame(in: .global).minX - insideProxy.frame(in: .global).minX
         }
+    }
+
+    private func getIndex(x:CGFloat ) -> Int {
+        let frameSize    = 64
+        let framePadding = 10
+        let intX = Int(abs(x))
+        return (intX / (frameSize + framePadding)) + 2
     }
 }
